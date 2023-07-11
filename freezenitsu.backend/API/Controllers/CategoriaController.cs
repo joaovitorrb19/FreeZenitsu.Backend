@@ -2,6 +2,7 @@
 using App.Services.Interfaces;
 using App.Validators;
 using App.ViewModel.ResultadoOperacao;
+using Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,14 +26,20 @@ namespace API.Controllers
             var resultadoValidacao = _validator.Validate(categoria);
             if (!resultadoValidacao.IsValid)
             {
-                var resultado = new ResultadoCRUDViewModel();
+                var resultado = new ResultadoCRUDViewModel{ IsSucessfull=false};
                 resultado.Error = resultadoValidacao.Errors.Select(x => x.ErrorMessage).ToArray();
                 return BadRequest(resultado);
             }
+
             try
             {
                 _service.Create(categoria);
                 return Ok(new ResultadoCRUDViewModel { IsSucessfull=true});
+            }
+            catch (EntidadeJaCadastradaException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -44,9 +51,10 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var listaCategorias = _service.Get();
+            
             try
             {
+                var listaCategorias = _service.Get();
                 return Ok(listaCategorias);
             }
             catch (Exception e)
@@ -60,9 +68,22 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult GetById([FromBody]int id)
         {
-            _service.Get(id);
+            try
+            {
+                _service.Get(id);
 
-            return Ok(new ResultadoCRUDViewModel { IsSucessfull = true });
+                return Ok(new ResultadoCRUDViewModel { IsSucessfull = true });
+            }
+            catch (EntidadeNaoExisteException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } });
+            }
+            
         }
 
         [Route("getbyname")]
@@ -75,6 +96,12 @@ namespace API.Controllers
 
                 return Ok(categoria);
             }
+            catch (EntidadeNaoExisteException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
+            }
+
             catch (Exception e)
             {
                 return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = true, Error = new string[1] {$"{e.Message}"} });
@@ -101,6 +128,12 @@ namespace API.Controllers
 
                 return Ok(new ResultadoCRUDViewModel { IsSucessfull = true });
             }
+            catch (EntidadeNaoExisteException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
+            }
+
             catch (Exception e)
             {
                 return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = true, Error = new string[1] { $"{e.Message}" } });
@@ -126,7 +159,13 @@ namespace API.Controllers
             {
                 _service.Delete(categoria);
                 return Ok(new ResultadoCRUDViewModel { IsSucessfull=true});
-            } 
+            }
+            catch (EntidadeNaoExisteException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
+            }
+
             catch (Exception e)
             {
                 return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = true, Error = new string[1] { $"{e.Message}" } });

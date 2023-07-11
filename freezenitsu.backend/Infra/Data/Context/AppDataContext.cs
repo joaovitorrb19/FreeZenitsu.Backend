@@ -17,7 +17,9 @@ namespace Infra.Data.Context
 
         }
 
+        public DbSet<Arquivo> Arquivo { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Produto> Produto { get; set; }
 
     }
 }

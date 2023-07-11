@@ -5,14 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.InputModel
+namespace App.InputModel.Produto
 {
     public class ProdutoInputModel
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
 
-        public int CategoriaId { get; set; }
+        public string CategoriaId { get; set; }
 
-        public IFormFile Imagem { get; set; }
+        public string URLImagem { get; set; }
+
+        public string Preco { get; set; }
     }
 }

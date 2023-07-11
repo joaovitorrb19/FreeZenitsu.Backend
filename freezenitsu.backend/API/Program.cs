@@ -3,10 +3,16 @@ using API.Configs.Profile;
 using API.Configs.Repository;
 using API.Configs.Service;
 using API.Configs.Validator;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600;
+});
 
 builder.Services.AddControllers();
 

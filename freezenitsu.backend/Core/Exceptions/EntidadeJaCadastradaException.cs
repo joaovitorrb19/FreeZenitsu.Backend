@@ -8,6 +8,15 @@ namespace Core.Exceptions
 {
     public class EntidadeJaCadastradaException : Exception
     {
+        public EntidadeJaCadastradaException()
+        {
+            
+        }
+
+        public EntidadeJaCadastradaException(string mensagem) : base(mensagem)
+        {
+            
+        }
 
     }
 }

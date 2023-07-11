@@ -16,8 +16,13 @@ namespace Core.Entidades
         public int CategoriaId { get; set; }
 
         public Categoria Categoria { get; set; }
+        
+        public int ArquivoId { get; set; }
 
-        public byte[] Imagem { get; set; }
+        public Arquivo Arquivo { get; set; }
 
+        public String URLImagem { get; set; }
+
+        public double Preco { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using App.Services;
+﻿using App.AppServices;
+using App.AppServices.Interfaces;
+using App.Services;
 using App.Services.Interfaces;
 
 namespace API.Configs.Service
@@ -9,6 +11,8 @@ namespace API.Configs.Service
         {
             
             service.AddScoped<ICategoriaService,CategoriaService>();
+            service.AddScoped<IProdutoService,ProdutoService>();
+            service.AddScoped<IArquivoService,ArquivoService>();
 
         }
     }

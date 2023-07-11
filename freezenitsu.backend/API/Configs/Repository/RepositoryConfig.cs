@@ -8,6 +8,8 @@ namespace API.Configs.Repository
         public static void AddRepositories(this IServiceCollection service)
         {
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            service.AddScoped<IProdutoRepository, ProdutoRepository>();
+            service.AddScoped<IArquivoRepository, ArquivoRepository>();
         }
     }
 }

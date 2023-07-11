@@ -3,6 +3,7 @@ using App.Services.Interfaces;
 using App.ViewModel.Categoria;
 using AutoMapper;
 using Core.Entidades;
+using Core.Exceptions;
 using Core.Interfaces.Repositorios;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace App.Services
             var categoriaMapeada = _mapper.Map<Categoria>(categoria);
 
             if (_repository.GetByName(categoriaMapeada.Nome) != null)
-                throw new Exception("Categoria já cadastrada");
+                throw new EntidadeJaCadastradaException("Categoria já cadastrada");
 
             _repository.Create(categoriaMapeada);
         }
@@ -49,7 +50,7 @@ namespace App.Services
            var categoriaNaoMapeada = _repository.GetById(id);
 
              if(categoriaNaoMapeada == null)
-               throw new Exception("Categoria não existente");
+               throw new EntidadeNaoExisteException("Categoria não existente");
 
            var categoriaMapeada = _mapper.Map<CategoriaViewModel>(categoriaNaoMapeada);
 
@@ -61,7 +62,7 @@ namespace App.Services
             var categoriaNaoMapeada = _repository.GetByName(nome);
 
             if (categoriaNaoMapeada == null)
-                throw new Exception("Categoria");
+                throw new EntidadeNaoExisteException("Categoria não existente");
 
             var categoriaMapeada = _mapper.Map<CategoriaViewModel>(categoriaNaoMapeada);
 
@@ -71,6 +72,9 @@ namespace App.Services
         public void Put(CategoriaInputModel categoria)
         {
             var categoriaMapeada = _mapper.Map<Categoria>(categoria);
+
+            if (_repository.GetById(categoria.Id) == null)
+                throw new EntidadeNaoExisteException("Categoria não existente");
 
             _repository.Put(categoriaMapeada);
         }
