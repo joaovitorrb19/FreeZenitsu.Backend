@@ -1,4 +1,5 @@
-﻿using App.InputModel.Produto;
+﻿using App.InputModel;
+using App.InputModel.Produto;
 using App.Services.Interfaces;
 using App.ViewModel.ResultadoOperacao;
 using Core.Entidades;
@@ -104,14 +105,16 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("put")]
-        public IActionResult Put([FromBody] ProdutoInputModel produto)
+        public IActionResult Put(int id, string Nome, string Preco, string CategoriaId)
         {
+            if(String.IsNullOrEmpty(Nome) && String.IsNullOrEmpty(Preco) && String.IsNullOrEmpty(CategoriaId))
+                    return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"Necessário pelo menos 1 campo." } });
             try
             {
-                _produtoService.Put(produto);
+                _produtoService.Put(id,Nome,Preco,CategoriaId);
                 return Ok(new ResultadoCRUDViewModel { IsSucessfull = true });
             }
-            catch (EntidadeJaCadastradaException e)
+            catch (EntidadeNaoExisteException e)
             {
                 var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
                 return BadRequest(e.Message);
@@ -123,13 +126,38 @@ namespace API.Controllers
             
         }
 
+        [HttpPut]
+        [Route("putimg")]
+        public IActionResult PutImg(string id,IFormFile Imagem)
+        {
+
+            if(String.IsNullOrEmpty(id) || Imagem == null )
+                return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"Campos não preenchidos." } });
+
+            try
+            {
+                _produtoService.PutImg(int.Parse(id),Imagem);
+                return Ok(new ResultadoCRUDViewModel { IsSucessfull = true });
+            }
+            catch (EntidadeNaoExisteException e)
+            {
+                var resultadoDTO = new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } };
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ResultadoCRUDViewModel { IsSucessfull = false, Error = new string[1] { $"{e.Message}" } });
+            }
+        }
+       
+
         [HttpDelete]
-        [Route("delete")]
-        public IActionResult Delete([FromBody] ProdutoInputModel produto)
+        [Route("delete/{id}")]
+        public IActionResult Delete(string id)
         {
             try
             {
-                _produtoService.Delete(produto);
+                _produtoService.Delete(id);
                 return Ok(new ResultadoCRUDViewModel { IsSucessfull = true});
             }
             catch (EntidadeJaCadastradaException e)

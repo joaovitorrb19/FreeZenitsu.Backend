@@ -13,5 +13,7 @@ namespace App.AppServices.Interfaces
         public Arquivo ConverterFileParaArquivo(IFormFile file);
 
         public IFormFile ConverterArquivoParaFile(Arquivo arquivo);
+
+        public Arquivo AtualizarArquivo(int id, IFormFile file);
     }
 }

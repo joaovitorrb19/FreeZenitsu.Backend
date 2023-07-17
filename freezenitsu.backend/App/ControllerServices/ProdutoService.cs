@@ -32,7 +32,7 @@ namespace App.Services
 
             var ArquivoCriado = this._arquivoService.ConverterFileParaArquivo(Imagem);
 
-            var Produto = new Produto {Nome = Nome,URLImagem = ArquivoCriado.Caminho,ArquivoId = ArquivoCriado.Id,Preco = double.Parse(Preco),CategoriaId = int.Parse(CategoriaId)};
+            var Produto = new Produto {Nome = Nome, NomeImagem = ArquivoCriado.Nome,ArquivoId = ArquivoCriado.Id,Preco = double.Parse(Preco),CategoriaId = int.Parse(CategoriaId)};
 
             if (_produtoRepository.GetByName(Produto.Nome) != null)
                 throw new EntidadeJaCadastradaException("Produto já cadastrado..."); 
@@ -46,14 +46,16 @@ namespace App.Services
 
         }
 
-        public void Delete(ProdutoInputModel produto)
+        public void Delete(string produtoId)
         {
-            var produtoMapeado = this._mapper.Map<Produto>(produto);
+            
 
-            if(_produtoRepository.GetById(produtoMapeado.Id) == null)
+            if(_produtoRepository.GetById(int.Parse(produtoId)) == null)
                 throw new EntidadeNaoExisteException("Produto não existente");
 
-            _produtoRepository.Delete(produtoMapeado);
+            var produto = _produtoRepository.GetById(int.Parse(produtoId));
+
+            _produtoRepository.Delete(produto);
 
         }
 
@@ -89,14 +91,45 @@ namespace App.Services
             return produtoMapeado;
         }
 
-        public void Put(ProdutoInputModel produto)
+        public void Put(int id,string Nome, string Preco, string CategoriaId)
         {
-            var produtoMapeado = this._mapper.Map<Produto>(produto);
 
-            if (_produtoRepository.GetById(produtoMapeado.Id) == null)
+            var produtoMapeado = this._produtoRepository.GetById(id);
+            if(Nome != null)
+                produtoMapeado.Nome = Nome;
+
+            if (Preco != null)
+                produtoMapeado.Preco = double.Parse(Preco);
+
+            if (CategoriaId != null)
+                produtoMapeado.CategoriaId = int.Parse(CategoriaId);
+
+            if (produtoMapeado == null)
                 throw new EntidadeNaoExisteException("Produto não existente");
+            
 
             _produtoRepository.Put(produtoMapeado);
+        }
+
+        public void PutImg(int id, IFormFile Imagem)
+        {
+
+            var arquivoAtualizado = _arquivoService.AtualizarArquivo(id,Imagem);
+                 if (arquivoAtualizado == null)
+                     throw new EntidadeNaoExisteException("Arquivo não cadastrado...");
+
+            var produtoCadastrado= _produtoRepository.GetProdutoByArquivoId(id);
+                if(produtoCadastrado == null)
+                        throw new EntidadeNaoExisteException("Produto não cadastrado...");
+
+            produtoCadastrado.NomeImagem = arquivoAtualizado.Nome;
+            _produtoRepository.Put(produtoCadastrado);
+
+            using (var fileStream = new FileStream(arquivoAtualizado.Caminho, FileMode.Create))
+            {
+                Imagem.CopyTo(fileStream);
+            }
+
         }
 
     }

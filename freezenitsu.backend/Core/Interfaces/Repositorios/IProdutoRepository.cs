@@ -15,5 +15,6 @@ namespace Core.Interfaces.Repositorios
         public void Delete(Produto produto);
         public void Put(Produto produto);
         public Produto Create(Produto produto);
+        public Produto GetProdutoByArquivoId(int id);
     }
 }

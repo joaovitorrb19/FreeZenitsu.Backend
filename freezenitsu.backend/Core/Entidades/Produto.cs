@@ -21,7 +21,7 @@ namespace Core.Entidades
 
         public Arquivo Arquivo { get; set; }
 
-        public String URLImagem { get; set; }
+        public String NomeImagem { get; set; }
 
         public double Preco { get; set; }
     }

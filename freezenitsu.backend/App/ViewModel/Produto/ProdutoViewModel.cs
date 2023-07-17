@@ -13,7 +13,7 @@ namespace App.ViewModel.Produto
 
         public string Nome { get; set; }
 
-        public string URLImagem { get; set; }
+        public string NomeImagem { get; set; }
 
         public string  Preco { get; set; }
 

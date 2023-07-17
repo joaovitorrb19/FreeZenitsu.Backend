@@ -2,12 +2,6 @@
 using Core.Interfaces.Repositorios;
 using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infra.Data.Persistencia
 {
@@ -34,7 +28,7 @@ namespace Infra.Data.Persistencia
 
         public List<Produto> Get()
         {
-            return _context.Produto.ToList();
+            return _context.Produto.Include(x => x.Categoria).ToList();
         }
 
         public Produto GetById(int id)
@@ -42,6 +36,10 @@ namespace Infra.Data.Persistencia
             var produto = _context.Produto.FirstOrDefault(x => x.Id == id);
             return produto;
         }
+
+        public Produto GetProdutoByArquivoId(int id){
+            return _context.Produto.FirstOrDefault(x => x.ArquivoId == id);
+            }
 
         public Produto GetByName(string name)
         {

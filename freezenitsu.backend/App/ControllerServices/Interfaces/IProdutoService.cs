@@ -17,7 +17,8 @@ namespace App.Services.Interfaces
         public List<ProdutoViewModel> Get();
         public ProdutoViewModel Get(int id);
         public ProdutoViewModel Get(string nome);
-        public void Delete(ProdutoInputModel categoria);
-        public void Put(ProdutoInputModel categoria);
+        public void Delete(string produtoId);
+        public void Put(int id, string Nome, string Preco, string CategoriaId);
+        public void PutImg(int id,IFormFile Imagem);
     }
 }
