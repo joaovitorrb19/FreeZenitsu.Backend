@@ -16,6 +16,8 @@ namespace Core.Entidades
 
         public string Telefone { get; set; }
 
+        public string NomeCompleto { get; set; }
+
 
     }
 }

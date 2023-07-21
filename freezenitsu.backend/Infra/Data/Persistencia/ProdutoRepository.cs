@@ -28,28 +28,28 @@ namespace Infra.Data.Persistencia
 
         public List<Produto> Get()
         {
-            return _context.Produto.Include(x => x.Categoria).ToList();
+            return _context.Produto.AsNoTracking().Include(x => x.Categoria).ToList();
         }
 
         public Produto GetById(int id)
         {
-            var produto = _context.Produto.FirstOrDefault(x => x.Id == id);
+            var produto = _context.Produto.AsNoTracking().FirstOrDefault(x => x.Id == id);
             return produto;
         }
 
         public Produto GetProdutoByArquivoId(int id){
-            return _context.Produto.FirstOrDefault(x => x.ArquivoId == id);
+            return _context.Produto.AsNoTracking().FirstOrDefault(x => x.ArquivoId == id);
             }
 
         public Produto GetByName(string name)
         {
-            var produto = _context.Produto.FirstOrDefault(x => x.Nome == name);
+            var produto = _context.Produto.AsNoTracking().FirstOrDefault(x => x.Nome == name);
             return produto;
         }
 
         public void Put(Produto produto)
         {
-            _context.Produto.Entry(produto).State = EntityState.Modified;
+            _context.Entry(produto).State = EntityState.Modified;
             _context.SaveChanges() ;
         }
     }

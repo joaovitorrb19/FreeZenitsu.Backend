@@ -10,6 +10,7 @@ namespace API.Configs.Repository
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IArquivoRepository, ArquivoRepository>();
+            service.AddScoped<ICodigoNotificacaoRepository, CodigoNotificacaoRepository>();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace API.Configs.Validator
         public static void AddValidators(this IServiceCollection service)
         {
             service.AddScoped<CategoriaInputModelValidator>();
+            service.AddScoped<UsuarioInputModelValidator>();
         }
     }
 }

@@ -2,11 +2,6 @@
 using Core.Interfaces.Repositorios;
 using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infra.Data.Persistencia
 {
@@ -31,24 +26,24 @@ namespace Infra.Data.Persistencia
 
         public List<Arquivo> Get()
         {
-            return _context.Arquivo.ToList();
+            return _context.Arquivo.AsNoTracking().ToList();
         }
 
         public Arquivo GetById(int id)
         {
-            var arquivo = _context.Arquivo.FirstOrDefault(a => a.Id == id);
+            var arquivo = _context.Arquivo.AsNoTracking().FirstOrDefault(a => a.Id == id);
             return arquivo;
         }
 
         public Arquivo GetByName(string name)
         {
-            var arquivo = _context.Arquivo.FirstOrDefault(x =>x.Nome == name);
+            var arquivo = _context.Arquivo.AsNoTracking().FirstOrDefault(x =>x.Nome == name);
             return arquivo;
         }
 
         public void Put(Arquivo arquivo)
         {
-            _context.Arquivo.Entry(arquivo).State = EntityState.Modified;
+            _context.Entry(arquivo).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Context
 {
-    public class AppDataContext : IdentityDbContext
+    public class AppDataContext : IdentityDbContext<Usuario>
     {
 
         public AppDataContext(DbContextOptions options) : base(options)
@@ -20,6 +20,8 @@ namespace Infra.Data.Context
         public DbSet<Arquivo> Arquivo { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Produto> Produto { get; set; }
+
+        public DbSet<CodigoNotificacao> CodigoNotificacao { get; set; }
 
     }
 }

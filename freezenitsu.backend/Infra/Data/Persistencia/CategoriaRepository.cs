@@ -32,22 +32,22 @@ namespace Infra.Data.Persistencia
 
         public List<Categoria> Get()
         {
-            return _context.Categoria.ToList();
+            return _context.Categoria.AsNoTracking().ToList();
         }
 
         public Categoria GetById(int id)
         {
-            return _context.Categoria.Find(id);
+            return _context.Categoria.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
         public Categoria GetByName(string name)
         {
-            return _context.Categoria.FirstOrDefault(x => x.Nome == name);
+            return _context.Categoria.AsNoTracking().FirstOrDefault(x => x.Nome == name);
         }
 
         public void Put(Categoria categoria)
         {
-            _context.Categoria.Entry(categoria).State = EntityState.Modified;
+            _context.Entry(categoria).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

@@ -13,3 +13,5 @@ C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.
 C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.backend\App\obj\Debug\net6.0\refint\App.dll
 C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.backend\App\obj\Debug\net6.0\App.pdb
 C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.backend\App\obj\Debug\net6.0\ref\App.dll
+C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.backend\App\bin\Debug\net6.0\App.runtimeconfig.json
+C:\Users\joaov\OneDrive\Área de Trabalho\Projetos\FreeZenitsu\back\freezenitsu.backend\App\obj\Debug\net6.0\App.genruntimeconfig.cache
